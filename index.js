@@ -10,17 +10,17 @@ bot.on('ready', () => {
 });
 
 bot.on("voiceStateUpdate", (oldMember, newMember) => {
+  //oldVoice and newVoice returns channelID
   let oldVoice = oldMember.voiceChannelID;
-  let userName = newMember.user.username;
   let newVoice = newMember.voiceChannelID;
+  let userName = newMember.user.username;
   if (oldVoice != newVoice) {
     if (oldVoice == null) {
-      console.log(userName + " joined!");
+      console.log(`${userName} has joined channel ${newMember.voiceChannel.name}`);
     } else if (newVoice == null) {
-      console.log(userName + " left!");
+      console.log(`${userName} left Discord`);
     } else {
-      console.log(userName + " switched channels!");
-      console.log(newVoice);
+      console.log(`${userName} switched from channel ${oldMember.voiceChannel.name} to ${newMember.voiceChannel.name}`);
     }
   }
 });
