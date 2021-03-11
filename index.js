@@ -3,6 +3,8 @@ const Discord = require('discord.js');
 const ytdl = require('ytdl-core');
 const bot = new Discord.Client();
 const TOKEN = process.env.TOKEN;
+const TARGETUSERTOANNOY = process.env.TARGETUSERTOANNOY;
+const TARGETCHANNELFORCOMMAND = process.env.TARGETCHANNELFORCOMMAND;
 
 const queue = new Map();
 
@@ -17,12 +19,12 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
   let oldVoice = oldMember.voiceChannelID;
   let newVoice = newMember.voiceChannelID;
   let userName = newMember.user.username;
-  console.log(newMember.user.id);
-  if (oldVoice != newVoice && newMember.user.id == '186913927765032960') {
+
+  if (oldVoice != newVoice && newMember.user.id == TARGETUSERTOANNOY) {
     if (oldVoice == null) {
       console.log(`${userName} has joined channel ${newMember.voiceChannel.name}`);
       followMason(newVoice);
-      bot.channels.get('818899793123868685').send("!play https://www.youtube.com/watch?v=Zuo4GsJDl-4");
+      bot.channels.get(TARGETCHANNELFORCOMMAND).send("!play https://www.youtube.com/watch?v=Zuo4GsJDl-4");
     } else if (newVoice == null) {
       console.log(`${userName} left Discord`);
       leaveMason(oldVoice);
