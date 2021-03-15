@@ -20,11 +20,13 @@ bot.on("voiceStateUpdate", (oldMember, newMember) => {
   let newVoice = newMember.voiceChannelID;
   let userName = newMember.user.username;
 
-  if (oldVoice != newVoice && newMember.user.id == TARGETUSERTOANNOY) {
+  if (oldVoice != newVoice) {
     if (oldVoice == null) {
       console.log(`${userName} has joined channel ${newMember.voiceChannel.name}`);
-      followMason(newVoice);
-      bot.channels.get(TARGETCHANNELFORCOMMAND).send("!play https://www.youtube.com/watch?v=Zuo4GsJDl-4");
+      if (newMember.user.id == TARGETUSERTOANNOY) {
+        followMason(newVoice);
+        bot.channels.get(TARGETCHANNELFORCOMMAND).send("!play https://www.youtube.com/watch?v=Zuo4GsJDl-4");
+      }
     } else if (newVoice == null) {
       console.log(`${userName} left Discord`);
       leaveMason(oldVoice);
