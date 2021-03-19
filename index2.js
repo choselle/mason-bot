@@ -24,14 +24,15 @@ bot.on("voiceStateUpdate", (oldState, newState) => {
     if (oldVoice == null) {
       console.log(`${userName} has joined channel ${newState.channel.name}`);
       if (newState.member.id == TARGETUSERTOANNOY) {
-        //bot.channels.cache.get(TARGETCHANNELFORCOMMAND).send("!play https://www.youtube.com/watch?v=Zuo4GsJDl-4");
+        //followMason(newVoice);
+        bot.channels.cache.get(TARGETCHANNELFORCOMMAND).send("!play https://www.youtube.com/watch?v=Zuo4GsJDl-4");
       }
     } else if (newVoice == null) {
       console.log(`${userName} left Discord`);
-      leaveMason(oldVoice);
+      //leaveMason(oldVoice);
     } else {
       console.log(`${userName} switched from channel ${oldState.channel.name} to ${newState.channel.name}`);
-      followMason(newVoice);
+      //followMason(newVoice);
     }
   }
 });
@@ -153,11 +154,10 @@ function play(guild, song) {
 }
 
 function followMason(channelID) {
-  const channel = bot.channels.cache.get(channelID);
+  const channel = bot.channels.get(channelID);
   if (!channel) return console.error("The channel does not exist!");
   channel.join().then(connection => {
     // Yay, it worked!
-    const dispatcher = connection.play('/home/hydrabolt/audio.mp3');
     console.log("Successfully connected.");
   }).catch(e => {
     // Oh no, it errored! Let's log it to console :)
@@ -166,7 +166,7 @@ function followMason(channelID) {
 }
 
 function leaveMason(channelID) {
-  const channel = bot.channels.cache.get(channelID);
+  const channel = bot.channels.get(channelID);
   if (!channel) return console.error("The channel does not exist!");
   channel.leave();
 }
