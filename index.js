@@ -4,11 +4,8 @@ const ytdl = require('ytdl-core');
 const bot = new Discord.Client();
 const TOKEN = process.env.TOKEN;
 const TARGETUSERTOANNOY = process.env.TARGETUSERTOANNOY;
-const TARGETCHANNELFORCOMMAND = process.env.TARGETCHANNELFORCOMMAND;
 
 let isSongStarted = false;
-
-const queue = new Map();
 
 bot.login(TOKEN);
 
@@ -47,13 +44,11 @@ function followMason(channelID) {
   const channel = bot.channels.cache.get(channelID);
   if (!channel) return console.error("The channel does not exist!");
   channel.join().then(connection => {
-    // Yay, it worked!
     if (!isSongStarted) {
       playSong(connection);
     }
     console.log("Successfully connected.");
   }).catch(e => {
-    // Oh no, it errored! Let's log it to console :)
     console.error(e);
   });
 }
