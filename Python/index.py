@@ -34,7 +34,6 @@ async def on_voice_state_update(member, oldState, newState):
 async def followMason(channel):
     global isConnected
     global voice
-    print('followMason fired.')
     if not channel:
         print('The channel does not exist!')
     else:
@@ -47,13 +46,11 @@ async def followMason(channel):
             return
 
 async def leaveMason(channel):
-    global voice
     global isConnected
     if not channel:
         print('The channel does not exist!')
     await voice.disconnect()
     isConnected = False
-    print('leaveMason fired.')
 
 def playSong(connection):
     print('playSong fired.')
