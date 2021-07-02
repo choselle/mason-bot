@@ -2,6 +2,7 @@ from decouple import config
 import discord
 
 client = discord.Client()
+voice = None
 isConnected = False
 TOKEN = config('TOKEN')
 TARGETUSERTOANNOY = int(config('TARGETUSERTOANNOY'))
@@ -24,7 +25,7 @@ async def on_voice_state_update(member, oldState, newState):
         elif newVoice is None:
             print('{0.name} left Discord'.format(user))
             if member.id == TARGETUSERTOANNOY:
-                leaveMason(oldVoice)
+                await leaveMason(oldVoice)
         else:
             print('{0.name} switched from chanel {1} to {2}'.format(user, oldVoice, newVoice))
             if member.id == TARGETUSERTOANNOY:
@@ -32,17 +33,26 @@ async def on_voice_state_update(member, oldState, newState):
 
 async def followMason(channel):
     global isConnected
+    global voice
     print('followMason fired.')
     if not channel:
         print('The channel does not exist!')
     else:
         if isConnected == False:
-            await channel.connect()
+            voice = await channel.connect()
+            playSong(channel)
             isConnected = True
         else:
+            await voice.move_to(channel)
             return
 
-def leaveMason(channel):
+async def leaveMason(channel):
+    global voice
+    global isConnected
+    if not channel:
+        print('The channel does not exist!')
+    await voice.disconnect()
+    isConnected = False
     print('leaveMason fired.')
 
 def playSong(connection):
