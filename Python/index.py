@@ -15,19 +15,18 @@ async def on_ready():
 async def on_voice_state_update(member, oldState, newState):
     oldVoice = oldState.channel
     newVoice = newState.channel
-    user = member
 
     if oldVoice is not newVoice:
         if oldVoice is None:
-            print('{0.name} has joined channel'.format(user))
+            print('{0.name} has joined channel'.format(member))
             if member.id == TARGETUSERTOANNOY:
                 await followMason(newVoice)
         elif newVoice is None:
-            print('{0.name} left Discord'.format(user))
+            print('{0.name} left Discord'.format(member))
             if member.id == TARGETUSERTOANNOY:
                 await leaveMason(oldVoice)
         else:
-            print('{0.name} switched from chanel {1} to {2}'.format(user, oldVoice, newVoice))
+            print('{0.name} switched from chanel {1} to {2}'.format(member, oldVoice, newVoice))
             if member.id == TARGETUSERTOANNOY:
                 await followMason(newVoice)
 
@@ -37,7 +36,7 @@ async def followMason(channel):
     if not channel:
         print('The channel does not exist!')
     else:
-        if isConnected == False:
+        if not isConnected:
             voice = await channel.connect()
             playSong(channel)
             isConnected = True
